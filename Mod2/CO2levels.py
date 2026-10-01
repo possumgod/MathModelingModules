@@ -30,7 +30,7 @@ def iterate_linear(alpha, beta, m, C0, C1, N):
 
 
 def closed_form_complex(alpha, beta, m, C0, C1, N):
-    """Eq. (10), valid for 4*alpha*beta > 1."""
+    """Valid for 4*alpha*beta > 1"""
     p = alpha * beta
     Cs = m / p
     r = np.sqrt(p)
@@ -42,7 +42,7 @@ def closed_form_complex(alpha, beta, m, C0, C1, N):
 
 # nonlinear model helpers
 def iterate_nonlinear(alpha, beta, m, C0, V0, N, blowup=50.0):
-    """C_{n+1} = C_n - beta*V_n*C_n + m ;  V_{n+1} = alpha*C_n   (eqs. 4-5)"""
+    """C_{n+1} = C_n - beta*V_n*C_n + m ;  V_{n+1} = alpha*C_n (5, 6)"""
     C = np.full(N + 1, np.nan)  # NaN -> not plotted
     V = np.full(N + 1, np.nan)
     C[0], V[0] = C0, V0
@@ -54,7 +54,7 @@ def iterate_nonlinear(alpha, beta, m, C0, V0, N, blowup=50.0):
     return C, V
 
 def steady_state(alpha, beta, m):
-    return np.sqrt(m / (alpha * beta)), np.sqrt(alpha * m / beta)  # eqn 7
+    return np.sqrt(m / (alpha * beta)), np.sqrt(alpha * m / beta)
 
 
 def fig1(plot):
@@ -66,7 +66,7 @@ def fig1(plot):
         ax.axhline(Cs, ls="--", color="gray", label=f"$C^*$ = {Cs:.2f}")
         if alpha == 0.5: 
             ax.plot(range(N + 1), closed_form_complex(alpha, beta, m, 2.0, 2.0, N),
-                    "rx", ms=6, label="closed form, eq. (10)")
+                    "rx", ms=6, label="closed")
         if alpha == 1.2:
             ax.axhline(0, color="k", lw=0.8)
         ax.set_title(title)
@@ -91,7 +91,7 @@ def fig2(plot):
         ax.set_title(title)
         ax.set_xlabel("n")
         ax.legend(fontsize=8)
-    fig.suptitle("Nonlinear model ($\\beta=m=1$, $C_0=1.1C^*$, $V_0=V^*$)")
+    fig.suptitle("Nonlinear model: $\\beta=m=1$, $C_0=1.1C^*$, $V_0=V^*$")
     fig.tight_layout()
     fig.savefig("Mod2\\fig2_nonlinear.png", dpi=200)
 
@@ -102,7 +102,7 @@ def fig3(plot, mods, ks):
     ax.axvline(3 - 2 * np.sqrt(2), ls=":", color="gray", label="$k=3-2\\sqrt{2}$")
     ax.set_xlabel("$k = \\sqrt{\\alpha\\beta m}$")
     ax.set_ylabel("largest eigenvalue")
-    ax.set_title("Stability of the nonlinear steady state")
+    ax.set_title("Stability for nonlinear steady state")
     ax.legend()
     fig.tight_layout()
     fig.savefig("Mod2\\fig3_eigenvalues.png", dpi=200)
